@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>Podfile</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #629755; font-style: italic;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #9876aa; font-style: italic;}
+.s3 { color: #6a8759;}
+.s4 { color: #a9b7c6;}
+.s5 { color: #cc7832;}
+.s6 { color: #ffc66d;}
+.s7 { color: #cc7832; font-style: italic;}
+.s8 { color: #6897bb; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Podfile</font>
+</center></td></tr></table>
+<pre><span class="s0"># Uncomment this line to define a global platform for your project</span>
+<span class="s1">platform </span><span class="s2">:ios</span><span class="s1">, </span><span class="s3">'10.0'</span>
+<span class="s4">$iOSVersion </span><span class="s5">= </span><span class="s3">'10.0'</span>
+
+<span class="s0"># CocoaPods analytics sends network stats synchronously affecting flutter build latency.</span>
+<span class="s4">ENV</span><span class="s1">[</span><span class="s3">'COCOAPODS_DISABLE_STATS'</span><span class="s1">] </span><span class="s5">= </span><span class="s3">'true'</span>
+
+<span class="s1">project </span><span class="s3">'Runner'</span><span class="s1">, {</span>
+  <span class="s3">'Debug' </span><span class="s1">=&gt; </span><span class="s2">:debug</span><span class="s1">,</span>
+  <span class="s3">'Profile' </span><span class="s1">=&gt; </span><span class="s2">:release</span><span class="s1">,</span>
+  <span class="s3">'Release' </span><span class="s1">=&gt; </span><span class="s2">:release</span><span class="s1">,</span>
+<span class="s1">}</span>
+
+<span class="s5">def </span><span class="s6">flutter_root</span>
+  <span class="s1">generated_xcode_build_settings_path </span><span class="s5">= </span><span class="s1">File.expand_path(File.join(</span><span class="s3">'..'</span><span class="s1">, </span><span class="s3">'Flutter'</span><span class="s1">, </span><span class="s3">'Generated.xcconfig'</span><span class="s1">), </span><span class="s4">__FILE__</span><span class="s1">)</span>
+  <span class="s5">unless </span><span class="s1">File.exist?(generated_xcode_build_settings_path)</span>
+    <span class="s5">raise </span><span class="s3">&quot;#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first&quot;</span>
+  <span class="s5">end</span>
+
+  <span class="s1">File.foreach(generated_xcode_build_settings_path) </span><span class="s5">do </span><span class="s1">|</span><span class="s4">line</span><span class="s1">|</span>
+    <span class="s1">matches </span><span class="s5">= </span><span class="s1">line.match(</span><span class="s3">/FLUTTER_ROOT</span><span class="s7">\=</span><span class="s3">(.*)/</span><span class="s1">)</span>
+    <span class="s5">return </span><span class="s1">matches[</span><span class="s8">1</span><span class="s1">].strip </span><span class="s5">if </span><span class="s1">matches 
+  </span><span class="s5">end</span>
+  <span class="s5">raise </span><span class="s3">&quot;FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get&quot;</span>
+<span class="s5">end</span>
+
+<span class="s5">require </span><span class="s1">File.expand_path(File.join(</span><span class="s3">'packages'</span><span class="s1">, </span><span class="s3">'flutter_tools'</span><span class="s1">, </span><span class="s3">'bin'</span><span class="s1">, </span><span class="s3">'podhelper'</span><span class="s1">), flutter_root)</span>
+
+<span class="s1">flutter_ios_podfile_setup 
+</span>
+<span class="s1">target </span><span class="s3">'Runner' </span><span class="s5">do</span>
+  <span class="s1">use_frameworks! 
+  use_modular_headers! 
+</span>
+  <span class="s1">flutter_install_all_ios_pods File.dirname(File.realpath(</span><span class="s4">__FILE__</span><span class="s1">))</span>
+<span class="s5">end</span>
+
+<span class="s1">post_install </span><span class="s5">do </span><span class="s1">|</span><span class="s4">installer</span><span class="s1">|</span>
+  <span class="s1">installer.pods_project.build_configurations.each </span><span class="s5">do </span><span class="s1">|</span><span class="s4">config</span><span class="s1">|</span>
+    <span class="s1">config.build_settings[</span><span class="s3">&quot;EXCLUDED_ARCHS[sdk=*]&quot;</span><span class="s1">] </span><span class="s5">= </span><span class="s3">&quot;armv7&quot;</span>
+    <span class="s1">config.build_settings[</span><span class="s3">'IPHONEOS_DEPLOYMENT_TARGET'</span><span class="s1">] </span><span class="s5">= </span><span class="s4">$iOSVersion</span>
+  <span class="s5">end</span>
+
+  <span class="s1">installer.pods_project.targets.each </span><span class="s5">do </span><span class="s1">|</span><span class="s4">target</span><span class="s1">|</span>
+    <span class="s1">flutter_additional_ios_build_settings(target)</span>
+
+    <span class="s1">target.build_configurations.each </span><span class="s5">do </span><span class="s1">|</span><span class="s4">config</span><span class="s1">|</span>
+      <span class="s5">if </span><span class="s1">Gem::Version.</span><span class="s5">new</span><span class="s1">(</span><span class="s4">$iOSVersion</span><span class="s1">) </span><span class="s5">&gt; </span><span class="s1">Gem::Version.</span><span class="s5">new</span><span class="s1">(config.build_settings[</span><span class="s3">'IPHONEOS_DEPLOYMENT_TARGET'</span><span class="s1">])</span>
+        <span class="s1">config.build_settings[</span><span class="s3">'IPHONEOS_DEPLOYMENT_TARGET'</span><span class="s1">] </span><span class="s5">= </span><span class="s4">$iOSVersion</span>
+      <span class="s5">end</span>
+    <span class="s5">end</span>
+  <span class="s5">end</span>
+<span class="s5">end</span>
+</pre>
+</body>
+</html>
