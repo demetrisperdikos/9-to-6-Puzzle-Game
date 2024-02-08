@@ -2,6 +2,10 @@
 Overview
 This project is an interactive word puzzle app created with Dart and Firebase. The app features a grid of boxes where users can input letters to form words. It validates the user's input against a set of target words and letters retrieved from a Firebase database. The app is designed to allow the content to be updated dynamically, with the capability for admins to modify the database contents to provide new puzzles on a weekly basis.
 
+https://github.com/demetrisperdikos/9-to-6-Puzzle-Game/assets/47956627/3becc87f-c5c8-440e-a3f1-67293269168e
+
+
+
 Features
 Dynamic Content via Firebase: The letters and words used in the puzzles are stored and managed in a Firebase database, enabling real-time updates and synchronization across all user devices.
 User Input Validation: As users enter letters into the boxes, their input is validated in real-time against the correct answers stored in Firebase.
